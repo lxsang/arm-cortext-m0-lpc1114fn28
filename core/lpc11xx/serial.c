@@ -46,8 +46,7 @@ static LPC_UART_TypeDef * const UARTS[MAX_SERIAL_PORTS] =
 int serial_name_to_port(char *name)
 {
   errno_r = 0;
-
-  if (!strncasecmp(name, "com1:", 5))
+  if (!strncmp(name, "com1:", 5))
     return 0;
   else
   {
@@ -67,8 +66,8 @@ int serial_open(char *name, unsigned int *subdevice)
   errno_r = 0;
 
 // Look up serial port number
-
   port = serial_name_to_port(name);
+  
   if (port < 0) return port;
 
 // Pass up port number, if requested
@@ -83,6 +82,7 @@ int serial_open(char *name, unsigned int *subdevice)
   switch (port)
   {
     case 0 :
+      LPC_SYSCON->SYSAHBCLKCTRL |= (1<<6) + (1<<16);
       LPC_IOCON->PIO1_6 = 0x00000031;		// RXD, pull-up, hysteresis
       LPC_IOCON->PIO1_7 = 0x00000001;		// TXD, push-pull output
       LPC_SYSCON->SYSAHBCLKCTRL |= (1 << 12);	// Enable UART

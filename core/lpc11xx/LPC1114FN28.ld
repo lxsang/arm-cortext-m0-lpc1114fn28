@@ -89,7 +89,6 @@ SECTIONS
 /* Firmware entry point */
 
 ENTRY(_vectors)
-
 /*  Libraries to link against. */
 
 INPUT( -lLPC1114FN28 )

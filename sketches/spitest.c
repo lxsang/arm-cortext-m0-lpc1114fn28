@@ -13,8 +13,8 @@
 static const char *device = "/dev/spidev0.0";
 static uint8_t mode;
 static uint8_t bits = 8;
-static uint32_t speed = 100000;
-static uint16_t delay;
+static uint32_t speed = 500000;
+static uint16_t delay = 110;
 
 int spi_open()
 {
@@ -88,39 +88,6 @@ int spi_send_cmd(int fd, uint8_t cmd, uint8_t idx, uint8_t value)
 	struct spi_ioc_transfer tr = {
 		.tx_buf = (unsigned long)tx,
 		.rx_buf = (unsigned long)rx,
-		.len = 1,
-		.delay_usecs = delay,
-		.speed_hz = speed,
-		.bits_per_word = bits
-	};
-	tx[0] = cmd;
-	tx[1] = idx;
-	tx[2] = value;
-	int i = 0;
-	for(i=0;i < 3; i++)
-	{
-	    tr.tx_buf = (unsigned long)(tx + i);
-	    tr.rx_buf = (unsigned long)(rx + i);
-	    ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
-        if (ret < 1)
-        {
-            perror("can't send spi message");
-        	return -1;
-        }
-	}
-    if(cmd == 0)
-        printf("RX %d %d %d \n", rx[0], rx[1], rx[2]);
-    return (int) rx[0];
-}
-/*
-int spi_send_cmd(int fd, uint8_t cmd, uint8_t idx, uint8_t value)
-{
-    int ret;
-    uint8_t tx[3]; 
-    uint8_t rx[3] = {0, };
-	struct spi_ioc_transfer tr = {
-		.tx_buf = (unsigned long)tx,
-		.rx_buf = (unsigned long)rx,
 		.len = 3,
 		.delay_usecs = delay,
 		.speed_hz = speed,
@@ -135,11 +102,11 @@ int spi_send_cmd(int fd, uint8_t cmd, uint8_t idx, uint8_t value)
         perror("can't send spi message");
     	return -1;
     }
-    if(cmd == 255)
-        printf("RX %d %d %d \n", rx[0], rx[1], rx[2]);
+    //if(cmd == 255)
+    // printf("RX %d %d %d \n", rx[0], rx[1], rx[2]);
     return (int) rx[0];
 }
-*/
+
 int spi_set(int fd,uint8_t idx, uint8_t v)
 {
     return spi_send_cmd(fd,1, idx, v);
@@ -152,16 +119,28 @@ int spi_get(int fd,uint8_t idx)
     ret = spi_send_cmd(fd,0,idx,0);
     if(ret == -1) return -1;
     // read back
-    return ret;
-    //spi_send_cmd(fd,255,255,255);
+    return spi_send_cmd(fd,255,255,255);
 }
 
 void spi_read_buff(int fd,uint8_t* buf, int size)
 {
-    int i,ret;
-    for(i=0; i < size; i++)
-        if((ret = spi_get(fd,i)) != -1)
-            buf[i] = ret;
+    int ret;
+    uint8_t tx[size];
+	struct spi_ioc_transfer tr = {
+		.tx_buf = (unsigned long)tx,
+		.rx_buf = (unsigned long)buf,
+		.len = size,
+		.delay_usecs = delay,
+		.speed_hz = speed,
+		.bits_per_word = bits
+	};
+	spi_send_cmd(fd,2,0,size);
+	ret = ioctl(fd, SPI_IOC_MESSAGE(1), &tr);
+    if (ret < 1)
+    {
+        perror("can't send spi message");
+    	return;
+    }
 }
 
 void spi_write_buff(int fd, uint8_t* buf, int size)
@@ -169,6 +148,7 @@ void spi_write_buff(int fd, uint8_t* buf, int size)
     int i;
     for(i=0; i < size; i++)
         spi_set(fd,i,buf[i]);
+    
 }
 
 int main(int argc, char *argv[])
@@ -190,17 +170,21 @@ int main(int argc, char *argv[])
     
     if(fd == -1) return -1;
     printf("device is opened\n");
-    spi_set(fd,_idx,_value);
     
-    uint8_t data[8];
+    uint8_t data[64];
+    for(ret = 0; ret < 64; ret++)
+        data[ret] = ret +1;
     
     //for(ret = 0)
+    spi_write_buff(fd,data,64);
+    
+	spi_set(fd,_idx,_value);
 	
-	spi_read_buff(fd,data,8);
+	spi_read_buff(fd,data,64);
 	
-	for(ret = 0; ret < 8; ret ++)
+	for(ret = 0; ret < 64; ret ++)
 	{
-	    printf("%.2X ", data[ret]);
+	    printf("%d ", data[ret]);
 	    //data[ret] = ret+1;
 	}
 	printf("\n");
