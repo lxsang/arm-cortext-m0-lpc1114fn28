@@ -1,4 +1,4 @@
-#include "wire.h"
+#include <cpu.h>
 #define IR_LEFT			12
 #define IR_RIGHT 		4
 #define SONAR_TRIGGER 	18
@@ -7,6 +7,7 @@
 #define MOTOR_FB_TRIG	500
 #define R_MOTOR_CAL(S) (0.8*S)
 
+#define BUFF_SIZE 64
 //right: en 11, d1 3, d2 26
 //left: en 13, d1 9, d2 10
 typedef struct{
