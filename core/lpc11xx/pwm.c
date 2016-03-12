@@ -41,8 +41,10 @@ static int pwm_timer_init(unsigned timer, unsigned frequency)
     case 0 :	// CT32B0
       LPC_SYSCON->SYSAHBCLKCTRL |= (1 << 9);	// Enable peripheral clock
       LPC_TMR32B0->PR = 0;			// No prescaler
-      LPC_TMR32B0->MCR = 0x00000400;		// Reset on match register 3
-      LPC_TMR32B0->MR3 = SystemCoreClock/frequency;
+      LPC_TMR32B0->MCR = 1<<7;		// Reset on match register 2
+      //LPC_TMR32B0->MCR = 0x00000400;		// Reset on match register 3
+       LPC_TMR32B0->MR2 = SystemCoreClock/frequency;
+      //LPC_TMR32B0->MR3 = SystemCoreClock/frequency;
       LPC_TMR32B0->CTCR = 0;			// Timer mode
       LPC_TMR32B0->TC = 0;			// Reset the counter
       LPC_TMR32B0->TCR = 1;			// Enable counter/timer
@@ -51,8 +53,10 @@ static int pwm_timer_init(unsigned timer, unsigned frequency)
     case 1 :	// CT32B1
       LPC_SYSCON->SYSAHBCLKCTRL |= (1 << 10);	// Enable peripheral clock
       LPC_TMR32B1->PR = 0;			// No prescaler
-      LPC_TMR32B1->MCR = 0x00000400;		// Reset on match register 3
-      LPC_TMR32B1->MR3 = SystemCoreClock/frequency;
+      LPC_TMR32B1->MCR = 1<<7;
+      //LPC_TMR32B1->MCR = 0x00000400;		// Reset on match register 3
+      //LPC_TMR32B1->MR3 = SystemCoreClock/frequency;
+      LPC_TMR32B1->MR2 = SystemCoreClock/frequency;
       LPC_TMR32B1->CTCR = 0;			// Timer mode
       LPC_TMR32B1->TC = 0;			// Reset the counter
       LPC_TMR32B1->TCR = 1;			// Enable counter/timer
@@ -100,13 +104,13 @@ int pwm_init(unsigned channel, unsigned frequency)
       LPC_IOCON->PIO1_7 = 0x000000C2;		// Enable match output
       break;
 
-    case 2 :	// CT32B1_MAT2 on P0.1
+    case 2 :	// CT32B1_MAT2 on P0.11
       if (pwm_timer_init(0, frequency))
         return -1;
 
-      LPC_TMR32B0->PWMC |= (1 << 2);		// Set PWMEN2
-      LPC_TMR32B0->MR2 = 0xFFFFFFFF;		// Turn output off at first
-      LPC_IOCON->PIO0_1 = 0x000000C2;		// Enable match output
+      LPC_TMR32B0->PWMC |= (1 << 3);		// Set PWMEN3
+      LPC_TMR32B0->MR3 = 0xFFFFFFFF;		// Turn output off at first
+      LPC_IOCON->R_PIO0_11 = 0x000000C3;		// Enable match output 
       break;
 
     case 4 :	// CT32B1_MAT0 on P1.1
@@ -127,13 +131,13 @@ int pwm_init(unsigned channel, unsigned frequency)
       LPC_IOCON->R_PIO1_2 = 0x000000C3;		// Enable match output
       break;
 
-    case 6 :	// CT32B1_MAT2 on P1.3
+    case 6 :	// CT32B1_MAT3 on P1.4
       if (pwm_timer_init(1, frequency))
         return -1;
 
-      LPC_TMR32B1->PWMC |= (1 << 2);		// Set PWMEN2
-      LPC_TMR32B1->MR2 = 0xFFFFFFFF;		// Turn output off at first
-      LPC_IOCON->SWDIO_PIO1_3 = 0x000000C3;	// Enable match output
+      LPC_TMR32B1->PWMC |= (1 << 3);		// Set PWMEN3
+      LPC_TMR32B1->MR3 = 0xFFFFFFFF;		// Turn output off at first
+      LPC_IOCON->PIO1_4 = 0x000000C2;	// Enable match output
       break;
 
     default :
@@ -167,32 +171,31 @@ int pwm_set(unsigned channel, uint32_t value)
   switch (channel)
   {
     case 0 :	// CT32B0_MAT0 on P1.6
-      LPC_TMR32B0->MR0 = LPC_TMR32B0->MR3 - 1ULL*LPC_TMR32B0->MR3*value/65536;
+      LPC_TMR32B0->MR0 = LPC_TMR32B0->MR2 - 1ULL*LPC_TMR32B0->MR2*value/65536;
       break;
 
     case 1 :	// CT32B1_MAT1 on P1.7
-      LPC_TMR32B0->MR1 = LPC_TMR32B0->MR3 - 1ULL*LPC_TMR32B0->MR3*value/65536;
+      LPC_TMR32B0->MR1 = LPC_TMR32B0->MR2 - 1ULL*LPC_TMR32B0->MR2*value/65536;
       break;
 
-    case 2 :	// CT32B2_MAT2 on P0.1
-      LPC_TMR32B0->MR2 = LPC_TMR32B0->MR3 - 1ULL*LPC_TMR32B0->MR3*value/65536;
+    case 2 :	// CT32B2_MAT2 on P0.?
+      LPC_TMR32B0->MR3 = LPC_TMR32B0->MR2 - 1ULL*LPC_TMR32B0->MR2*value/65536;
       break;
 
     // MR3 is used for setting the PWM period
 
     case 4 :	// CT32B1_MAT0 on P1.1
-      LPC_TMR32B1->MR0 = LPC_TMR32B1->MR3 - 1ULL*LPC_TMR32B1->MR3*value/65536;
+      LPC_TMR32B1->MR0 = LPC_TMR32B1->MR2 - 1ULL*LPC_TMR32B1->MR2*value/65536;
       break;
 
     case 5 :	// CT32B1_MAT1 on P1.2
-      LPC_TMR32B1->MR1 = LPC_TMR32B1->MR3 - 1ULL*LPC_TMR32B1->MR3*value/65536;
+      LPC_TMR32B1->MR1 = LPC_TMR32B1->MR2 - 1ULL*LPC_TMR32B1->MR2*value/65536;
       break;
 
-    case 6 :	// CT32B1_MAT2 on P1.3
-      LPC_TMR32B1->MR2 = LPC_TMR32B1->MR3 - 1ULL*LPC_TMR32B1->MR3*value/65536;
+    case 6 :	// CT32B1_MAT2 on P1.4
+      LPC_TMR32B1->MR3 = LPC_TMR32B1->MR2 - 1ULL*LPC_TMR32B1->MR2*value/65536;
       break;
-
-    // MR3 is used for setting the PWM period
+    // MR2 is used for setting the PWM period
 
     default :
       errno_r = ENODEV;
