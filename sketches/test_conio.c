@@ -41,7 +41,7 @@ int main(void)
   char buf[256];
   int x, y;
 
-  cpu_init(DEFAULT_CPU_FREQ);
+  cpu_init(48000000);
 
 #ifdef CONSOLE_SERIAL
   serial_stdio(CONSOLE_PORT);

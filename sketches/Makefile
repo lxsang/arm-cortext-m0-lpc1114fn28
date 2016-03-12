@@ -31,7 +31,7 @@ include ../core/include/ARM.mk
 
 .PHONY: clean reallyclean distclean
 
-conio: test_conio.hex
+conio: serial.hex test_conio.hex
 
 clean: ARM_mk_clean
 

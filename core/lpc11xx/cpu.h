@@ -42,7 +42,7 @@
 #include <conio.h>
 #endif
 
-#define DEFAULT_CPU_FREQ	0
+#define DEFAULT_CPU_FREQ	48000000
 
 // The following constants _should_ be defined in LPC11xx.h
 
