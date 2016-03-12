@@ -16,13 +16,17 @@
 #define BWD 0x2
 #define ML_P (data_buffer + 4)
 #define MR_P (data_buffer + 6)
-
+#define SN_P (data_buffer + 2)
 typedef struct{
-    __IO uint8_t vio;
+    uint8_t vio;
     __IO uint32_t d1;
     __IO uint32_t d2;
 } motor_t;
 
+typedef struct{
+    __IO uint32_t trig;
+    __IO uint32_t echo;
+} sonar_t;
 
 uint8_t data_buffer[BUF_SIZE];
 uint8_t cmd[CMD_SIZE];
@@ -38,6 +42,11 @@ motor_t mr = {
     .vio = 6,
     .d1 = PIO1_1,
     .d2 = PIO1_5
+};
+
+sonar_t sonar = {
+    .trig = PIO1_9,
+    .echo = PIO1_8
 };
 
 int motor_init(motor_t m)
@@ -71,6 +80,50 @@ void motor_set_direction(motor_t m, uint8_t d)
         gpio_write(m.d2, HIGH);
         gpio_write(m.d1, LOW);
     }
+}
+
+void sonar_init(sonar_t s)
+{
+    gpio_configure(s.trig, GPIO_MODE_OUTPUT);
+    gpio_configure(s.echo, GPIO_MODE_INPUT);
+}
+void sonar_read(sonar_t s)
+{
+    int counter = 0;
+    int max = 60000; //us
+    //first reset the trigger
+    gpio_write(s.trig,LOW);
+    delay_us(5);
+    // trigger is high for 10us to active the sensor
+    gpio_write(s.trig,HIGH);
+    delay_us(10);
+    gpio_write(s.trig,LOW);
+    //enable the system tick, enable interrup, use system clock
+    SysTick->CTRL |= (1<<0)+(1<<2);
+    SysTick->LOAD = DEFAULT_CPU_FREQ/100000 - 1;
+    SysTick->VAL = 5;
+    while(counter*10<max)
+    {
+        while(SysTick->VAL > 5){if(gpio_read(s.echo)==HIGH) break;}
+        if(gpio_read(s.echo)==HIGH) break;
+        counter++;
+    }
+    SysTick->CTRL &= ~((1<<0)+(1<<2));
+    //echo is High, get the pulse width
+    counter = 0;
+    SysTick->CTRL |= (1<<0)+(1<<2);
+    SysTick->LOAD = DEFAULT_CPU_FREQ/100000 - 1;
+    SysTick->VAL = 5;
+    while(gpio_read(s.echo) == HIGH )
+    {
+        while(SysTick->VAL > 5);
+        counter++;
+    }
+    SysTick->CTRL &= ~((1<<0)+(1<<2));
+    //convert to distance in cm
+    counter = counter*10/57;
+    *(SN_P) = counter & 0xFF; // low bytes
+    *(SN_P+1) = (counter >> 8) & 0xFF; // high byte
 }
 
 void SPI0_IRQHandler(void)
@@ -114,6 +167,7 @@ void UART_IRQHandler(void)
     uint8_t c=0;
     int i;
     //gets(buf);
+    __disable_irq();
     if(LPC_UART->LSR & 0x01)
         c = LPC_UART->RBR;
     printf("Command:%c \n", c);
@@ -131,8 +185,9 @@ void UART_IRQHandler(void)
             for(i = 0; i < BUF_SIZE;i++) data_buffer[i] = 0;
             break;
         default:;
-            printf("Unknow command. Enter c (clear) or d (display)");
+            printf("Unknow command. Enter c (clear) or d (display)\n");
     }
+    __enable_irq();
 }
 
 int main(void)
@@ -157,6 +212,7 @@ int main(void)
     
     motor_init(ml);
     motor_init(mr);
+    sonar_init(sonar);
     
     for (;;)
     {
@@ -164,6 +220,7 @@ int main(void)
         motor_set_direction(mr,*MR_P);
         motor_set_speed(ml, *(ML_P+1));
         motor_set_speed(mr, *(MR_P+1));
+        sonar_read(sonar);
         delay_ms(200);
     }
 }
