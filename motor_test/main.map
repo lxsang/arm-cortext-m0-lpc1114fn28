@@ -1,0 +1,430 @@
+Archive member included because of file (symbol)
+
+/Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_udivsi3.o)
+                              wire.o (__aeabi_uidiv)
+/Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_divsi3.o)
+                              wire.o (__aeabi_idiv)
+/Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_dvmd_tls.o)
+                              /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_udivsi3.o) (__aeabi_idiv0)
+/Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(muldf3.o)
+                              rpicarapi.o (__aeabi_dmul)
+/Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(fixdfsi.o)
+                              rpicarapi.o (__aeabi_d2iz)
+/Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(floatsidf.o)
+                              rpicarapi.o (__aeabi_i2d)
+/Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_clzsi2.o)
+                              /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(muldf3.o) (__clzsi2)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+flash            0x0000000000000000 0x0000000000008000
+ram              0x0000000010000000 0x0000000000002000
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD init.o
+LOAD wire.o
+LOAD rpicarapi.o
+LOAD main.o
+LOAD /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a
+                0x0000000000000000                . = ORIGIN (flash)
+
+.text           0x0000000000000000     0x1bec
+ *(.vectors)
+ .vectors       0x0000000000000000       0xc0 init.o
+                0x0000000000000000                Vectors
+ *(.text)
+ .text          0x00000000000000c0       0xa4 init.o
+                0x00000000000000c0                Default_Handler
+                0x00000000000000c4                clock_init
+                0x000000000000010c                init
+                0x000000000000015c                start
+ .text          0x0000000000000164      0xdac wire.o
+                0x0000000000000164                RSET
+                0x000000000000016c                RCLEAR
+                0x0000000000000174                PINCONF
+                0x00000000000002d8                BIT_S
+                0x000000000000038c                IOFUN_SET
+                0x00000000000003b0                __serial_irq
+                0x00000000000003c8                __sys_tick
+                0x00000000000003e0                __GPIO_IRQ
+                0x0000000000000458                GPIO_DIR_SET
+                0x0000000000000488                PINDIR
+                0x00000000000004b4                GPIO_READ
+                0x00000000000004cc                GPIO_DATA_SET
+                0x00000000000004fc                digital_write
+                0x0000000000000528                digital_read
+                0x000000000000054c                gpio_pin_mode
+                0x00000000000005cc                gpio_interrupt
+                0x00000000000006bc                pwm_enable
+                0x0000000000000784                pwm_write
+                0x0000000000000910                serial_begin
+                0x00000000000009b8                serial_write_byte
+                0x00000000000009d4                serial_write
+                0x00000000000009ec                serial_writenl
+                0x0000000000000a00                __HARD_FAULT
+                0x0000000000000a10                serial_write_int
+                0x0000000000000a3c                __spi_irq
+                0x0000000000000ac0                serial_write_hex
+                0x0000000000000ae8                serial_write_buff
+                0x0000000000000b14                serial_irq
+                0x0000000000000b3c                serial_available
+                0x0000000000000b4c                serial_read
+                0x0000000000000b58                serial_read_buff
+                0x0000000000000b84                analog_init
+                0x0000000000000bb4                analog_enable
+                0x0000000000000bd8                analog_read
+                0x0000000000000c48                __delay_cycles
+                0x0000000000000c50                delay_us
+                0x0000000000000c60                delay_ms
+                0x0000000000000c70                delay_s
+                0x0000000000000c80                sonar_init
+                0x0000000000000c94                sonar_get_distance
+                0x0000000000000d48                __div_and_round
+                0x0000000000000d6c                servo_init
+                0x0000000000000d80                servo_write
+                0x0000000000000d98                spi_init
+                0x0000000000000e58                spi_send
+                0x0000000000000e8c                spi_data_from_fifo
+                0x0000000000000eb4                spi_receive
+                0x0000000000000ee4                spi_irq
+ .text          0x0000000000000f10      0x2d8 rpicarapi.o
+                0x0000000000000f10                motor_init
+                0x0000000000000f44                motor_forward
+                0x0000000000000f6c                motor_stop
+                0x0000000000000f7c                motor_backward
+                0x0000000000000fa4                __wait_until_distance_reached
+                0x0000000000000ffc                car_stop
+                0x0000000000001018                car_turn_left
+                0x0000000000001064                car_turn_right
+                0x00000000000010b4                car_forward
+                0x0000000000001104                car_backward
+                0x0000000000001154                car_forward_by_distance
+                0x000000000000116c                car_backward_by_distance
+                0x0000000000001184                car_init
+                0x00000000000011c8                car_sensors_read
+ .text          0x00000000000011e8       0xac main.o
+                0x00000000000011e8                wall_hit
+                0x00000000000011f0                serial_cmd
+                0x000000000000126c                main
+ .text          0x0000000000001294      0x120 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_udivsi3.o)
+                0x0000000000001294                __udivsi3
+                0x0000000000001294                __aeabi_uidiv
+                0x00000000000013a0                __aeabi_uidivmod
+ .text          0x00000000000013b4      0x1e0 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_divsi3.o)
+                0x00000000000013b4                __aeabi_idiv
+                0x00000000000013b4                __divsi3
+                0x0000000000001580                __aeabi_idivmod
+ .text          0x0000000000001594        0x4 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_dvmd_tls.o)
+                0x0000000000001594                __aeabi_ldiv0
+                0x0000000000001594                __aeabi_idiv0
+ .text          0x0000000000001598      0x534 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(muldf3.o)
+                0x0000000000001598                __aeabi_dmul
+ .text          0x0000000000001acc       0x6c /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(fixdfsi.o)
+                0x0000000000001acc                __aeabi_d2iz
+ .text          0x0000000000001b38       0x78 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(floatsidf.o)
+                0x0000000000001b38                __aeabi_i2d
+ .text          0x0000000000001bb0       0x3c /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_clzsi2.o)
+                0x0000000000001bb0                __clzsi2
+
+.glue_7         0x0000000000001bec        0x0
+ .glue_7        0x0000000000000000        0x0 linker stubs
+
+.glue_7t        0x0000000000001bec        0x0
+ .glue_7t       0x0000000000000000        0x0 linker stubs
+
+.vfp11_veneer   0x0000000000001bec        0x0
+ .vfp11_veneer  0x0000000000000000        0x0 linker stubs
+
+.v4_bx          0x0000000000001bec        0x0
+ .v4_bx         0x0000000000000000        0x0 linker stubs
+
+.iplt           0x0000000000001bec        0x0
+ .iplt          0x0000000000000000        0x0 init.o
+
+.rel.dyn        0x0000000000001bec        0x0
+ .rel.iplt      0x0000000000000000        0x0 init.o
+
+.rodata.str1.4  0x0000000000001bec       0x10
+ .rodata.str1.4
+                0x0000000000001bec       0x10 wire.o
+
+.rodata         0x0000000000001bfc       0x9c
+ .rodata        0x0000000000001bfc       0x5c main.o
+ .rodata        0x0000000000001c58       0x40 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(muldf3.o)
+                0x0000000010000000                . = ORIGIN (ram)
+
+.data           0x0000000010000000       0x1c load address 0x0000000000001c98
+                0x0000000000001c98                INIT_DATA_VALUES = LOADADDR (.data)
+                0x0000000010000000                INIT_DATA_START = .
+ *(.data)
+ .data          0x0000000010000000        0x0 init.o
+ .data          0x0000000010000000        0x0 wire.o
+ .data          0x0000000010000000       0x18 rpicarapi.o
+                0x0000000010000000                motor_right
+                0x000000001000000c                motor_left
+ .data          0x0000000010000018        0x4 main.o
+                0x0000000010000018                speed
+ .data          0x000000001000001c        0x0 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_udivsi3.o)
+ .data          0x000000001000001c        0x0 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_divsi3.o)
+ .data          0x000000001000001c        0x0 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_dvmd_tls.o)
+ .data          0x000000001000001c        0x0 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(muldf3.o)
+ .data          0x000000001000001c        0x0 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(fixdfsi.o)
+ .data          0x000000001000001c        0x0 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(floatsidf.o)
+ .data          0x000000001000001c        0x0 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_clzsi2.o)
+                0x000000001000001c                INIT_DATA_END = .
+                0x000000001000001c                BSS_START = .
+
+.igot.plt       0x000000001000001c        0x0 load address 0x0000000000001cb4
+ .igot.plt      0x0000000000000000        0x0 init.o
+
+.bss            0x000000001000001c       0x64 load address 0x0000000000001cb4
+ *(.bss)
+ .bss           0x000000001000001c        0x0 init.o
+ .bss           0x000000001000001c       0x64 wire.o
+                0x000000001000001c                UART_IRQ
+                0x0000000010000020                SYS_TICK_IRQ
+                0x0000000010000024                GPIO0_IRQ
+                0x0000000010000054                GPIO1_IRQ
+                0x000000001000007c                SPI_IRQ
+ .bss           0x0000000010000080        0x0 rpicarapi.o
+ .bss           0x0000000010000080        0x0 main.o
+ .bss           0x0000000010000080        0x0 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_udivsi3.o)
+ .bss           0x0000000010000080        0x0 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_divsi3.o)
+ .bss           0x0000000010000080        0x0 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_dvmd_tls.o)
+ .bss           0x0000000010000080        0x0 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(muldf3.o)
+ .bss           0x0000000010000080        0x0 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(fixdfsi.o)
+ .bss           0x0000000010000080        0x0 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(floatsidf.o)
+ .bss           0x0000000010000080        0x0 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_clzsi2.o)
+                0x0000000010000080                BSS_END = .
+OUTPUT(main.elf elf32-littlearm)
+
+.debug_info     0x0000000000000000     0x1e62
+ .debug_info    0x0000000000000000      0x153 init.o
+ .debug_info    0x0000000000000153     0x12bb wire.o
+ .debug_info    0x000000000000140e      0x79c rpicarapi.o
+ .debug_info    0x0000000000001baa      0x2b8 main.o
+
+.debug_abbrev   0x0000000000000000      0x73f
+ .debug_abbrev  0x0000000000000000      0x111 init.o
+ .debug_abbrev  0x0000000000000111      0x2e5 wire.o
+ .debug_abbrev  0x00000000000003f6      0x20b rpicarapi.o
+ .debug_abbrev  0x0000000000000601      0x13e main.o
+
+.debug_loc      0x0000000000000000     0x1a43
+ .debug_loc     0x0000000000000000       0x8a init.o
+ .debug_loc     0x000000000000008a     0x15d6 wire.o
+ .debug_loc     0x0000000000001660      0x3d0 rpicarapi.o
+ .debug_loc     0x0000000000001a30       0x13 main.o
+
+.debug_aranges  0x0000000000000000       0x80
+ .debug_aranges
+                0x0000000000000000       0x20 init.o
+ .debug_aranges
+                0x0000000000000020       0x20 wire.o
+ .debug_aranges
+                0x0000000000000040       0x20 rpicarapi.o
+ .debug_aranges
+                0x0000000000000060       0x20 main.o
+
+.debug_line     0x0000000000000000      0x66e
+ .debug_line    0x0000000000000000       0x63 init.o
+ .debug_line    0x0000000000000063      0x4c2 wire.o
+ .debug_line    0x0000000000000525       0xd5 rpicarapi.o
+ .debug_line    0x00000000000005fa       0x74 main.o
+
+.debug_str      0x0000000000000000      0x599
+ .debug_str     0x0000000000000000      0x14f init.o
+                                        0x154 (size before relaxing)
+ .debug_str     0x000000000000014f      0x2fe wire.o
+                                        0x3ec (size before relaxing)
+ .debug_str     0x000000000000044d      0x131 rpicarapi.o
+                                        0x279 (size before relaxing)
+ .debug_str     0x000000000000057e       0x1b main.o
+                                        0x194 (size before relaxing)
+
+.comment        0x0000000000000000       0x70
+ .comment       0x0000000000000000       0x70 init.o
+                                         0x71 (size before relaxing)
+ .comment       0x0000000000000000       0x71 wire.o
+ .comment       0x0000000000000000       0x71 rpicarapi.o
+ .comment       0x0000000000000000       0x71 main.o
+
+.ARM.attributes
+                0x0000000000000000       0x31
+ .ARM.attributes
+                0x0000000000000000       0x31 init.o
+ .ARM.attributes
+                0x0000000000000031       0x31 wire.o
+ .ARM.attributes
+                0x0000000000000062       0x31 rpicarapi.o
+ .ARM.attributes
+                0x0000000000000093       0x31 main.o
+ .ARM.attributes
+                0x00000000000000c4       0x1e /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_udivsi3.o)
+ .ARM.attributes
+                0x00000000000000e2       0x1e /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_divsi3.o)
+ .ARM.attributes
+                0x0000000000000100       0x1e /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_dvmd_tls.o)
+ .ARM.attributes
+                0x000000000000011e       0x2c /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(muldf3.o)
+ .ARM.attributes
+                0x000000000000014a       0x2c /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(fixdfsi.o)
+ .ARM.attributes
+                0x0000000000000176       0x2c /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(floatsidf.o)
+ .ARM.attributes
+                0x00000000000001a2       0x1e /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_clzsi2.o)
+
+.debug_frame    0x0000000000000000      0x798
+ .debug_frame   0x0000000000000000       0x60 init.o
+ .debug_frame   0x0000000000000060      0x488 wire.o
+ .debug_frame   0x00000000000004e8      0x184 rpicarapi.o
+ .debug_frame   0x000000000000066c       0x58 main.o
+ .debug_frame   0x00000000000006c4       0x20 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_udivsi3.o)
+ .debug_frame   0x00000000000006e4       0x20 /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_divsi3.o)
+ .debug_frame   0x0000000000000704       0x3c /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(muldf3.o)
+ .debug_frame   0x0000000000000740       0x2c /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(fixdfsi.o)
+ .debug_frame   0x000000000000076c       0x2c /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(floatsidf.o)
+
+.debug_ranges   0x0000000000000000       0x30
+ .debug_ranges  0x0000000000000000       0x30 wire.o
+
+Cross Reference Table
+
+Symbol                                            File
+BIT_S                                             wire.o
+BSS_END                                           init.o
+BSS_START                                         init.o
+Default_Handler                                   init.o
+GPIO0_IRQ                                         wire.o
+GPIO1_IRQ                                         wire.o
+GPIO_DATA_SET                                     wire.o
+GPIO_DIR_SET                                      wire.o
+GPIO_READ                                         wire.o
+INIT_DATA_END                                     init.o
+INIT_DATA_START                                   init.o
+INIT_DATA_VALUES                                  init.o
+IOFUN_SET                                         wire.o
+PINCONF                                           wire.o
+PINDIR                                            wire.o
+RCLEAR                                            wire.o
+RSET                                              wire.o
+SPI_IRQ                                           wire.o
+SYS_TICK_IRQ                                      wire.o
+UART_IRQ                                          wire.o
+Vectors                                           init.o
+__GPIO_IRQ                                        wire.o
+                                                  init.o
+__HARD_FAULT                                      wire.o
+                                                  init.o
+__aeabi_d2iz                                      /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(fixdfsi.o)
+                                                  rpicarapi.o
+__aeabi_dmul                                      /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(muldf3.o)
+                                                  rpicarapi.o
+__aeabi_i2d                                       /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(floatsidf.o)
+                                                  rpicarapi.o
+__aeabi_idiv                                      /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_divsi3.o)
+                                                  wire.o
+__aeabi_idiv0                                     /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_dvmd_tls.o)
+                                                  /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_divsi3.o)
+                                                  /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_udivsi3.o)
+__aeabi_idivmod                                   /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_divsi3.o)
+                                                  wire.o
+__aeabi_ldiv0                                     /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_dvmd_tls.o)
+__aeabi_uidiv                                     /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_udivsi3.o)
+                                                  wire.o
+__aeabi_uidivmod                                  /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_udivsi3.o)
+__clzsi2                                          /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_clzsi2.o)
+                                                  /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(floatsidf.o)
+                                                  /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(muldf3.o)
+__delay_cycles                                    wire.o
+__div_and_round                                   wire.o
+__divsi3                                          /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_divsi3.o)
+__serial_irq                                      wire.o
+                                                  init.o
+__spi_irq                                         wire.o
+                                                  init.o
+__sys_tick                                        wire.o
+                                                  init.o
+__udivsi3                                         /Users/mrsang/private-app/gcc-arm-none-eabi-4_9/lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_udivsi3.o)
+__wait_until_distance_reached                     rpicarapi.o
+analog_enable                                     wire.o
+                                                  rpicarapi.o
+analog_init                                       wire.o
+                                                  rpicarapi.o
+analog_read                                       wire.o
+                                                  rpicarapi.o
+car_backward                                      rpicarapi.o
+                                                  main.o
+car_backward_by_distance                          rpicarapi.o
+car_forward                                       rpicarapi.o
+                                                  main.o
+car_forward_by_distance                           rpicarapi.o
+                                                  main.o
+car_init                                          rpicarapi.o
+                                                  main.o
+car_sensors_read                                  rpicarapi.o
+car_stop                                          rpicarapi.o
+                                                  main.o
+car_turn_left                                     rpicarapi.o
+                                                  main.o
+car_turn_right                                    rpicarapi.o
+                                                  main.o
+clock_init                                        init.o
+delay_ms                                          wire.o
+                                                  main.o
+                                                  rpicarapi.o
+delay_s                                           wire.o
+delay_us                                          wire.o
+digital_read                                      wire.o
+digital_write                                     wire.o
+                                                  rpicarapi.o
+gpio_interrupt                                    wire.o
+                                                  main.o
+gpio_pin_mode                                     wire.o
+                                                  rpicarapi.o
+init                                              init.o
+main                                              main.o
+                                                  init.o
+motor_backward                                    rpicarapi.o
+motor_forward                                     rpicarapi.o
+motor_init                                        rpicarapi.o
+motor_left                                        rpicarapi.o
+motor_right                                       rpicarapi.o
+motor_stop                                        rpicarapi.o
+pwm_enable                                        wire.o
+                                                  rpicarapi.o
+pwm_write                                         wire.o
+                                                  rpicarapi.o
+serial_available                                  wire.o
+                                                  main.o
+serial_begin                                      wire.o
+                                                  main.o
+serial_cmd                                        main.o
+serial_irq                                        wire.o
+                                                  main.o
+serial_read                                       wire.o
+                                                  main.o
+serial_read_buff                                  wire.o
+serial_write                                      wire.o
+serial_write_buff                                 wire.o
+serial_write_byte                                 wire.o
+serial_write_hex                                  wire.o
+serial_write_int                                  wire.o
+serial_writenl                                    wire.o
+servo_init                                        wire.o
+servo_write                                       wire.o
+sonar_get_distance                                wire.o
+                                                  rpicarapi.o
+sonar_init                                        wire.o
+                                                  rpicarapi.o
+speed                                             main.o
+spi_data_from_fifo                                wire.o
+spi_init                                          wire.o
+spi_irq                                           wire.o
+spi_receive                                       wire.o
+spi_send                                          wire.o
+start                                             init.o
+wall_hit                                          main.o
