@@ -48,7 +48,8 @@ MCULINKSCRIPT	= $(MCUDIR)/$(MCU).ld
 
 # Recursive make flags, to be passed to subordinate makes
 
-RMAKEFLAGS	+= ARMSRC=$(ARMSRC)
+RMAKEFLAGS	+= ARMSRC=../
+#$(ARMSRC)
 RMAKEFLAGS	+= ARMTOOLS=$(ARMTOOLS)
 RMAKEFLAGS	+= BOARDNAME=$(BOARDNAME)
 
@@ -175,4 +176,4 @@ include $(MCUDIR)/$(MCUFAMILY).mk
 
 # Include optional subordinate makefiles
 
-sinclude $(HOME)/src/include/subversion.mk
+# sinclude $(HOME)/src/include/subversion.mk

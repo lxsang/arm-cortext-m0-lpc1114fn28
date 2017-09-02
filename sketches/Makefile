@@ -27,9 +27,11 @@ ARMSRC		?= ../core
 MCUFAMILY	= lpc11xx
 BOARDNAME	?= PROTOBOARD_LPC1114FN28
 
-include $(ARMSRC)/include/ARM.mk
+include ../core/include/ARM.mk
 
 .PHONY: clean reallyclean distclean
+
+conio: test_conio.hex
 
 clean: ARM_mk_clean
 
