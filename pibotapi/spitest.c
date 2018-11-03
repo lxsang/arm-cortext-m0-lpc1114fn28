@@ -5,12 +5,13 @@
 #include <getopt.h>
 #include <fcntl.h>
 #include <sys/ioctl.h>
+#include <linux/ioctl.h>
 #include <linux/types.h>
 #include <linux/spi/spidev.h>
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof((a)[0]))
 
-static const char *device = "/dev/spidev0.0";
+static const char *device = "/dev/spidev32766.0";
 static uint8_t mode;
 static uint8_t bits = 8;
 static uint32_t speed = 500000;

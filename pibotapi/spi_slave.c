@@ -193,8 +193,16 @@ void UART_IRQHandler(void)
 int main(void)
 {
     int status;
+    // wait for uboot to boot the
+    // linux kernel
+    // give it 2 second
+    delay_s(2);
     cpu_init(DEFAULT_CPU_FREQ);
     serial_stdio(CONSOLE_PORT);
+    // for safety, just exect the boot
+    // command in case of uboot is
+    // interrupt
+    printf("boot\n");
     //init spi
     if ((status = spi_slave_init(0, 8, 3, SPI_MSBFIRST)))
     {
